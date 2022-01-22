@@ -1,38 +1,24 @@
-# create-svelte
+# [Stretchly for web](https://web.stretchly.net)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+*Stretchly for Web* is a simplified version of the [Stretchly](https://hovancik.net/stretchly) app.
 
-## Creating a project
+## Current features
+- basic funcionality of Mini and Regular breaks
+- ability to Start, Resume, Pause and Stop breaks
+- simple Preferences (intervals and durations for Mini and Regular breaks)
+- debug information
 
-If you're seeing this, you've probably already done this step. Congrats!
+## New features
+ I am not sure where I want to take this, yet, so before making any PR, please, open an issue to discuss proposed changes.
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+## Known issues
+None.
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
+## Debugging
+Some debugging information are available under Preferences. Please provide any browser debugging information from [its console](https://developer.mozilla.org/en-US/docs/Tools/Browser_Console).
 
-> Note: the `@next` is temporary
+## Credits
+Icon  by Colin Shanley ([www.colinshanley.com](http://www.colinshanley.com/)).
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
-
-```bash
-npm run build
-```
-
-> You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+## License
+See [LICENSE](https://github.com/hovancik/stretchly-for-web/blob/master/LICENSE) file.
