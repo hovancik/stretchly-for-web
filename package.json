@@ -1,19 +1,50 @@
 {
-  "name": "stretchly-for-web",
+  "name": "Stretchly for Web",
   "version": "0.0.1",
+  "description": "The break time reminder app",
+  "engines": {
+    "node": "14.18.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hovancik/stretchly.git"
+  },
+  "keywords": [
+    "Stretchly",
+    "break",
+    "time",
+    "reminder"
+  ],
+  "author": "Jan Hovancik <jan@hovancik.net>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/hovancik/stretchly-for-web/issues"
+  },
+  "homepage": "https://web.stretchly.net",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
-    "lint": "eslint --ignore-path .gitignore ."
+    "test": "mocha test",
+    "lint": "eslint --ignore-path .gitignore .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
+    "bulma": "^0.9.3",
+    "carbon-icons-svelte": "^10.44.3",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
     "eslint-plugin-svelte3": "^3.2.1",
-    "svelte": "^3.44.0"
+    "husky": "^7.0.4",
+    "mocha": "^9.1.4",
+    "sass": "^1.46.0",
+    "svelte": "^3.44.0",
+    "svelte-preprocess": "^4.10.1"
   },
   "type": "module"
 }
