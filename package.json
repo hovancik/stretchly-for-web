@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "The break time reminder app",
   "engines": {
-    "node": "14.18.3"
+    "node": "16"
   },
   "repository": {
     "type": "git",
@@ -22,10 +22,10 @@
   },
   "homepage": "https://web.stretchly.net",
   "scripts": {
-    "dev": "svelte-kit dev",
-    "build": "svelte-kit build",
+    "dev": "vite dev",
+    "build": "vite build",
     "package": "svelte-kit package",
-    "preview": "svelte-kit preview",
+    "preview": "vite preview",
     "test": "mocha test",
     "lint": "eslint --ignore-path .gitignore .",
     "prepare": "husky install"
@@ -44,7 +44,8 @@
     "mocha": "^9.1.4",
     "sass": "^1.46.0",
     "svelte": "^3.44.0",
-    "svelte-preprocess": "^4.10.1"
+    "svelte-preprocess": "^4.10.1",
+    "vite": "^3.0.4"
   },
   "type": "module"
 }

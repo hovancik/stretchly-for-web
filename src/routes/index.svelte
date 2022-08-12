@@ -19,6 +19,9 @@
   let miniBreakIdea = null
   const longBreakIdeas = new Shuffled(theLongBreakIdeas)
   let longBreakIdea = null
+  let heroClass = 'is-success'
+
+  $: heroClass = current === 'break' ? 'is-info' : 'is-success'
 
   $: if (status === 'stopped' || status === 'paused') {
     // nothing
@@ -87,7 +90,7 @@
 <svelte:head>
   <title>Stretchly for Web</title>
 </svelte:head>
-<section class="hero is-fullheight is-success">
+<section class="hero is-fullheight {heroClass}">
   <div class="hero-head">
     <div class="container">
       <NotificationRequest/>
@@ -129,7 +132,7 @@
           <h1 class="title">
             Stretchly for Web
           </h1>
-          <span class="tag is-primary is-light">
+          <span class="tag {heroClass} is-light">
             Breaks are {status}
           </span>
         </div>
@@ -139,11 +142,11 @@
             Time to work!
           </h1>
           {#if finishedMinis === longBreakInterval}
-            <span class="tag is-primary is-light">
+            <span class="tag {heroClass} is-light">
               Next Long Break in {formattedLeft}
             </span>
           {:else}
-            <span class="tag is-primary is-light">
+            <span class="tag {heroClass} is-light">
               Next Mini Break in {formattedLeft}
             </span>
           {/if}
@@ -164,7 +167,7 @@
               {miniBreakIdea}
             </h1>
           {/if}
-          <span class="tag is-primary is-light">
+          <span class="tag {heroClass} is-light">
             {formattedLeft} remaining
           </span>
         </div>
@@ -181,18 +184,19 @@
     </div>
   </div>
 </section>
-<section class="hero is-info">
+<section class="hero is-light">
   <div class="hero-body">
     <div class="container content">
       <h1 class="title" id="preferences">
         Preferences
       </h1>
       <p>None of the preferences are saved and will be reset to defaults when page is reloaded.</p>
+      <p>Pause the breaks before editing preferences.   
       <h2 class="subtitle">Mini Breaks</h2>
       <p>Mini Breaks are short breaks taken regularly to give you a chance to stretch and relax.</p>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label has-text-white" for="miniBreakDuration">Duration (seconds)</label>
+          <label class="label" for="miniBreakDuration">Duration (seconds)</label>
         </div>
         <div class="field-body">
           <div class="field">
@@ -204,7 +208,7 @@
       </div>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label has-text-white" for="miniBreakInterval">Interval (seconds)</label>
+          <label class="label" for="miniBreakInterval">Interval (seconds)</label>
         </div>
         <div class="field-body">
           <div class="field">
@@ -218,7 +222,7 @@
       <p>Long Breaks are taken less regularly, but are of greater duration, allowing you to take an extended break from your work.</p>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label has-text-white" for="longBreakDuration">Duration (seconds)</label>
+          <label class="label" for="longBreakDuration">Duration (seconds)</label>
         </div>
         <div class="field-body">
           <div class="field">
@@ -230,7 +234,7 @@
       </div>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label has-text-white" for="longBreakInterval">Interval (Mini Breaks)</label>
+          <label class="label" for="longBreakInterval">Interval (Mini Breaks)</label>
         </div>
         <div class="field-body">
           <div class="field">
