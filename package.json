@@ -1,10 +1,11 @@
 {
-  "name": "Stretchly for Web",
-  "version": "0.0.1",
+  "name": "stretchly-for-web",
+  "version": "0.0.3",
   "description": "The break time reminder app",
   "engines": {
     "node": "16"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hovancik/stretchly.git"
@@ -22,30 +23,27 @@
   },
   "homepage": "https://web.stretchly.net",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite",
     "build": "vite build",
-    "package": "svelte-kit package",
     "preview": "vite preview",
     "test": "mocha test",
     "lint": "eslint --ignore-path .gitignore .",
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "next",
-    "@sveltejs/kit": "next",
-    "bulma": "^0.9.3",
-    "carbon-icons-svelte": "^10.44.3",
-    "chai": "^4.3.4",
+    "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "bulma": "^0.9.4",
+    "carbon-icons-svelte": "^11.2.0",
+    "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^7.32.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-svelte3": "^3.2.1",
-    "husky": "^7.0.4",
-    "mocha": "^9.1.4",
-    "sass": "^1.46.0",
-    "svelte": "^3.44.0",
-    "svelte-preprocess": "^4.10.1",
-    "vite": "^3.0.4"
-  },
-  "type": "module"
+    "eslint": "^8.22.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "husky": "^8.0.1",
+    "mocha": "^10.0.0",
+    "sass": "^1.53.0",
+    "svelte": "^3.49.0",
+    "svelte-preprocess": "^4.10.7",
+    "vite": "^3.0.7"
+  }
 }

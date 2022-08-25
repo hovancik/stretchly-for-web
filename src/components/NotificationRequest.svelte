@@ -1,6 +1,5 @@
 <script>
-  import { browser } from '$app/env'
-  import Notification16 from 'carbon-icons-svelte/lib/Notification16'
+  import NotificationIcon from 'carbon-icons-svelte/lib/Notification.svelte'
 
   let notificationsAreAllowed = NaN
   let browserSupportsNotifications = NaN
@@ -11,10 +10,8 @@
     })
   }
 
-  if (browser) {
-    browserSupportsNotifications = ('Notification' in window)
-    notificationsAreAllowed = (Notification.permission === 'granted')
-  }
+  browserSupportsNotifications = ('Notification' in window)
+  notificationsAreAllowed = (Notification.permission === 'granted')
 
   let loaded = false
 
@@ -23,7 +20,7 @@
 
 <section>
   {#if !loaded }
-        // not ready
+        <!--Still loading-->
   {:else if !browserSupportsNotifications}
     <div class="notification mt-2 is-warning is-light">
       <p class="">This browser does not support notifications.</p>
@@ -32,7 +29,7 @@
     <div class="notification mt-2 is-warning is-light">
       <button class="button is-success is-outlined is-small is-pulled-right" on:click={requestPermission}>
         <span class="icon is-small">
-          <Notification16/>
+          <NotificationIcon size="16"/>
         </span>
         <span>Request Notifications Permission</span>
       </button>

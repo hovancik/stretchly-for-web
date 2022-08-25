@@ -1,5 +1,5 @@
 import chai from 'chai'
-import { Shuffled } from '../src/utils/shuffled.js'
+import { Shuffled } from '../src/lib/shuffled.js'
 
 chai.should()
 
