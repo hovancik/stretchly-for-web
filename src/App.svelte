@@ -197,7 +197,6 @@
       <h1 class="title" id="preferences">
         Preferences
       </h1>
-      <p>None of the preferences are saved and will be reset to defaults when page is reloaded.</p>
       <p>Pause the breaks before editing preferences.   
       <h2 class="subtitle">Mini Breaks</h2>
       <p>Mini Breaks are short breaks taken regularly to give you a chance to stretch and relax.</p>
