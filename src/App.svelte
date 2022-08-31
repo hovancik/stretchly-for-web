@@ -18,12 +18,23 @@
   const longBreakIdeas = new Shuffled(theLongBreakIdeas)
   let longBreakIdea = null
   let heroClass = 'is-success'
+  let logMessages = []
+  const logLength = 30
+
+  function addToLogMessages (message) {
+    if (logMessages.length >= logLength) {
+      logMessages.shift()
+      logMessages = logMessages
+    }
+    logMessages = [...logMessages, `${(new Date()).toLocaleTimeString()}: ${message}`]
+  }
 
   $: if ($longBreakInterval || $longBreakDuration || $miniBreakDuration || $miniBreakInterval) {
     window.localStorage.setItem('longBreakInterval', $longBreakInterval)
     window.localStorage.setItem('longBreakDuration', $longBreakDuration)
     window.localStorage.setItem('miniBreakDuration', $miniBreakDuration)
     window.localStorage.setItem('miniBreakInterval', $miniBreakInterval)
+    addToLogMessages(`Saving preferences to localStorage: ${Object.entries(window.localStorage)}`)
   }
 
   $: heroClass = current === 'break' ? 'is-info' : 'is-success'
@@ -40,12 +51,14 @@
         new Notification('Stretchly - Mini Break', { body: miniBreakIdea, icon: '/stretchly_128x128.png' })
         current = 'break'
         counter = 0
+        addToLogMessages('Mini Break started')
       } else if ((finishedMinis === $longBreakInterval) && (counter >= $miniBreakInterval)) {
         longBreakIdea = longBreakIdeas.randomElement.data
         /* eslint-disable no-new */
         new Notification('Stretchly - Long Break', { body: longBreakIdea[0] + ': ' + longBreakIdea[1], icon: '/stretchly_128x128.png' })
         current = 'break'
         counter = 0
+        addToLogMessages('Long Break started')
       }
       left = $miniBreakInterval - counter
     } else if (current === 'break') {
@@ -58,6 +71,7 @@
           current = 'work'
           counter = 0
           left = $miniBreakInterval - counter
+          addToLogMessages('Mini Break ended')
         }
       } else if (finishedMinis === $longBreakInterval) {
         left = $longBreakDuration - counter
@@ -68,6 +82,7 @@
           current = 'work'
           counter = 0
           left = $miniBreakInterval - counter
+          addToLogMessages('Long Break ended')
         }
       }
     }
@@ -86,12 +101,15 @@
     left = 0
     formattedLeft = ''
     finishedMinis = 0
+    addToLogMessages('Breakes stopped')
   }
   function start () {
     status = 'running'
+    addToLogMessages('Breakes started')
   }
   function pause () {
     status = 'paused'
+    addToLogMessages('Breakes paused')
   }
 </script>
 <svelte:head>
@@ -197,7 +215,7 @@
       <h1 class="title" id="preferences">
         Preferences
       </h1>
-      <p>Pause the breaks before editing preferences.   
+      <p>Stop the breaks before editing preferences.   
       <h2 class="subtitle">Mini Breaks</h2>
       <p>Mini Breaks are short breaks taken regularly to give you a chance to stretch and relax.</p>
       <div class="field is-horizontal">
@@ -207,7 +225,7 @@
         <div class="field-body">
           <div class="field">
             <p class="control">
-              <input class="input" type="number" size="10" style="width: auto;" bind:value={$miniBreakDuration} id="miniBreakDuration">
+              <input disabled={status !== 'stopped'} class="input" type="number" size="10" style="width: auto;" bind:value={$miniBreakDuration} id="miniBreakDuration">
             </p>
           </div>
         </div>
@@ -219,7 +237,7 @@
         <div class="field-body">
           <div class="field">
             <p class="control">
-              <input class="input" type="number" size="10" style="width: auto;" bind:value={$miniBreakInterval} id="miniBreakInterval">
+              <input disabled={status !== 'stopped'} class="input" type="number" size="10" style="width: auto;" bind:value={$miniBreakInterval} id="miniBreakInterval">
             </p>
           </div>
         </div>
@@ -233,7 +251,7 @@
         <div class="field-body">
           <div class="field">
             <p class="control">
-              <input class="input" type="number" size="10" style="width: auto;" bind:value={$longBreakDuration} id="longBreakDuration">
+              <input disabled={status !== 'stopped'} class="input" type="number" size="10" style="width: auto;" bind:value={$longBreakDuration} id="longBreakDuration">
             </p>
           </div>
         </div>
@@ -245,7 +263,7 @@
         <div class="field-body">
           <div class="field">
             <p class="control">
-              <input class="input" type="number" size="10" style="width: auto;" bind:value={$longBreakInterval} id="longBreakInterval">
+              <input disabled={status !== 'stopped'} class="input" type="number" size="10" style="width: auto;" bind:value={$longBreakInterval} id="longBreakInterval">
             </p>
           </div>
         </div>
@@ -254,11 +272,8 @@
         Debug information
       </h2>
       <div class="content is-small">
+        <h3>Preferences</h3>
         <table class="table is-striped is-narrow is-size-7">
-          <tr>
-            <td>status</td>
-            <td> {status}</td>
-          </tr>
           <tr>
             <td>longBreakInterval</td>
             <td> {$longBreakInterval}</td>
@@ -274,6 +289,13 @@
           <tr>
             <td>miniBreakDuration</td>
             <td> {$miniBreakDuration}</td>
+          </tr>
+        </table>
+        <h3>State</h3>
+        <table class="table is-striped is-narrow is-size-7">
+          <tr>
+            <td>status</td>
+            <td> {status}</td>
           </tr>
           <tr>
             <td>counter</td>
@@ -296,6 +318,15 @@
             <td> {finishedMinis}</td>
           </tr>
         </table>
+        <h3>Debug</h3>
+        Last {logLength} messages are kept.
+        <article class="message is-small">
+          <div class="message-body">
+            {#each logMessages as message, i}
+              {message} <br>
+            {/each}
+          </div>
+        </article>
       </div>
     </div>
   </div>
