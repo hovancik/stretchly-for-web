@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.0.5] - 2022-08-01
 ### Fixed
 - Long Break never happening (because of bad parsing of preferences)
 
@@ -32,7 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - simple Preferences (intervals and durations for Mini and Regular breaks)
 - debug information
 
-[Unreleased]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.1...v0.0.2
