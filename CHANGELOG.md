@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added 
+- ability to skip to a break
+ 
 ## [0.0.5] - 2022-08-01
 ### Fixed
 - Long Break never happening (because of bad parsing of preferences)
