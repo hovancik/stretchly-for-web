@@ -1,14 +1,19 @@
 <script>
-  import NotificationRequest from './components/NotificationRequest.svelte'
-  import Play from 'carbon-icons-svelte/lib/Play.svelte'
-  import Stop from 'carbon-icons-svelte/lib/Stop.svelte'
-  import Pause from 'carbon-icons-svelte/lib/Pause.svelte'
   import { Shuffled } from './lib/shuffled.js'
   import { theMiniBreakIdeas, theLongBreakIdeas } from './lib/ideas.js'
   import { longBreakInterval, longBreakDuration, miniBreakDuration, miniBreakInterval } from './stores/preferences.js'
+  import NotificationRequest from './components/NotificationRequest.svelte'
+  
+  import SkipForward from 'carbon-icons-svelte/lib/SkipForward.svelte'
+  import Play from 'carbon-icons-svelte/lib/Play.svelte'
+  import Stop from 'carbon-icons-svelte/lib/Stop.svelte'
+  import Pause from 'carbon-icons-svelte/lib/Pause.svelte'
+  
+  import { Timer } from 'easytimer.js'
+  const timer = new Timer({ precision: 'seconds' })
 
   let status = 'stopped'
-  let counter = 0
+  let counter = timer.getTimeValues().seconds
   let current = 'work'
   let left = 0
   let formattedLeft = ''
@@ -29,6 +34,60 @@
     logMessages = [...logMessages, `${(new Date()).toLocaleTimeString()}: ${message}`]
   }
 
+  function startLongBreak () {
+    longBreakIdea = longBreakIdeas.randomElement.data
+    /* eslint-disable no-new */
+    new Notification('Stretchly - Long Break', { body: longBreakIdea[0] + ': ' + longBreakIdea[1], icon: '/stretchly_128x128.png' })
+    current = 'break'
+    timer.reset()
+    addToLogMessages('Long Break started')
+  }
+
+  function startMiniBreak () {
+    miniBreakIdea = miniBreakIdeas.randomElement.data
+    /* eslint-disable no-new */
+    new Notification('Stretchly - Mini Break', { body: miniBreakIdea, icon: '/stretchly_128x128.png' })
+    current = 'break'
+    timer.reset()
+    addToLogMessages('Mini Break started')
+  }
+  
+  function skipToMiniBreak () {
+    finishedMinis = finishedMinis === $longBreakInterval ? 0 : finishedMinis
+    addToLogMessages('Skipping to Mini Break')
+    startMiniBreak()
+  }
+
+  function skipToLongBreak () {
+    finishedMinis = $longBreakInterval
+    addToLogMessages('Skipping to Long Break')
+    startLongBreak()
+  }
+
+  function finishMiniBreak () {
+    /* eslint-disable no-new */
+    new Notification('Stretchly', { body: 'Time for work!', icon: '/stretchly_128x128.png' })
+    finishedMinis += 1
+    current = 'work'
+    timer.reset()
+    left = $miniBreakInterval - counter
+    addToLogMessages('Mini Break ended')
+  }
+
+  function finishLongBreak () {
+    /* eslint-disable no-new */
+    new Notification('Stretchly', { body: 'Time for work!', icon: '/stretchly_128x128.png' })
+    finishedMinis = 0
+    current = 'work'
+    timer.reset()
+    left = $miniBreakInterval - counter
+    addToLogMessages('Long Break ended')
+  }
+
+  timer.addEventListener('secondsUpdated', () => {
+    counter = timer.getTotalTimeValues().seconds
+  })
+
   $: if ($longBreakInterval || $longBreakDuration || $miniBreakDuration || $miniBreakInterval) {
     window.localStorage.setItem('longBreakInterval', $longBreakInterval)
     window.localStorage.setItem('longBreakDuration', $longBreakDuration)
@@ -37,53 +96,25 @@
     addToLogMessages(`Saving preferences to localStorage: ${Object.entries(window.localStorage)}`)
   }
 
-  $: heroClass = current === 'break' ? 'is-info' : 'is-success'
-
-  $: if (status === 'stopped' || status === 'paused') {
+  $: if (['stopped', 'paused'].includes(status)) {
     // nothing
-  } else {
-    setTimeout(() => counter++, 1000)
-
-    if (current === 'work') {
-      if ((finishedMinis < $longBreakInterval) && (counter >= $miniBreakInterval)) {
-        miniBreakIdea = miniBreakIdeas.randomElement.data
-        /* eslint-disable no-new */
-        new Notification('Stretchly - Mini Break', { body: miniBreakIdea, icon: '/stretchly_128x128.png' })
-        current = 'break'
-        counter = 0
-        addToLogMessages('Mini Break started')
-      } else if ((finishedMinis === $longBreakInterval) && (counter >= $miniBreakInterval)) {
-        longBreakIdea = longBreakIdeas.randomElement.data
-        /* eslint-disable no-new */
-        new Notification('Stretchly - Long Break', { body: longBreakIdea[0] + ': ' + longBreakIdea[1], icon: '/stretchly_128x128.png' })
-        current = 'break'
-        counter = 0
-        addToLogMessages('Long Break started')
+  } else if (current === 'work') {
+    if ((finishedMinis < $longBreakInterval) && (counter >= $miniBreakInterval)) {
+      startMiniBreak()
+    } else if ((finishedMinis === $longBreakInterval) && (counter >= $miniBreakInterval)) {
+      startLongBreak()
+    }
+    left = $miniBreakInterval - counter
+  } else if (current === 'break') {
+    if (finishedMinis < $longBreakInterval) {
+      left = $miniBreakDuration - counter
+      if (counter >= $miniBreakDuration) {
+        finishMiniBreak()
       }
-      left = $miniBreakInterval - counter
-    } else if (current === 'break') {
-      if (finishedMinis < $longBreakInterval) {
-        left = $miniBreakDuration - counter
-        if (counter >= $miniBreakDuration) {
-          /* eslint-disable no-new */
-          new Notification('Stretchly', { body: 'Time for work!', icon: '/stretchly_128x128.png' })
-          finishedMinis += 1
-          current = 'work'
-          counter = 0
-          left = $miniBreakInterval - counter
-          addToLogMessages('Mini Break ended')
-        }
-      } else if (finishedMinis === $longBreakInterval) {
-        left = $longBreakDuration - counter
-        if (counter >= $longBreakDuration) {
-          /* eslint-disable no-new */
-          new Notification('Stretchly', { body: 'Time for work!', icon: '/stretchly_128x128.png' })
-          finishedMinis = 0
-          current = 'work'
-          counter = 0
-          left = $miniBreakInterval - counter
-          addToLogMessages('Long Break ended')
-        }
+    } else if (finishedMinis === $longBreakInterval) {
+      left = $longBreakDuration - counter
+      if (counter >= $longBreakDuration) {
+        finishLongBreak()
       }
     }
   }
@@ -91,30 +122,40 @@
   $: if (left) {
     const measuredTime = new Date(null)
     measuredTime.setSeconds(left)
-    formattedLeft = measuredTime.toISOString().substr(11, 8)
+    formattedLeft = measuredTime.toISOString().substring(11, 19)
   }
+
+  $: heroClass = current === 'work' ? 'is-success' : 'is-info'
 
   function stop () {
     status = 'stopped'
-    counter = 0
+    timer.stop()
     current = 'work'
     left = 0
     formattedLeft = ''
     finishedMinis = 0
     addToLogMessages('Breakes stopped')
   }
+
   function start () {
     status = 'running'
+    current = 'work'
+    timer.start()
     addToLogMessages('Breakes started')
   }
+  
   function pause () {
     status = 'paused'
+    current = 'work'
+    timer.pause()
     addToLogMessages('Breakes paused')
   }
 </script>
+
 <svelte:head>
   <title>Stretchly for Web</title>
 </svelte:head>
+
 <section class="hero is-fullheight {heroClass}">
   <div class="hero-head">
     <div class="container">
@@ -145,6 +186,26 @@
               </span>
               <span>Stop</span>
             </button>
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger">
+                <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span class="icon is-small">
+                    <SkipForward size="16" />
+                  </span>
+                  <span>Skip to</span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <a href={'#'} class="dropdown-item" on:click={ () => skipToMiniBreak()  }>
+                    Mini Break
+                  </a>
+                  <a href={'#'} class="dropdown-item" on:click={ () => skipToLongBreak()  }>
+                    Long Break
+                  </a>
+                </div>
+              </div>
+            </div>
           {/if}
         </div>
       </div>
@@ -304,6 +365,10 @@
           <tr>
             <td>current</td>
             <td> {current}</td>
+          </tr>
+          <tr>
+            <td>heroClass</td>
+            <td> {heroClass}</td>
           </tr>
           <tr>
             <td>left</td>

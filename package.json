@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "The break time reminder app",
   "engines": {
-    "node": "16"
+    "node": "18.x"
   },
   "type": "module",
   "repository": {
@@ -31,11 +31,12 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "bulma": "^0.9.4",
     "carbon-icons-svelte": "^11.2.0",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
+    "easytimer.js": "^4.5.4",
     "eslint": "^8.22.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-svelte3": "^4.0.0",
@@ -43,7 +44,7 @@
     "mocha": "^10.0.0",
     "sass": "^1.53.0",
     "svelte": "^3.49.0",
-    "svelte-preprocess": "^4.10.7",
-    "vite": "^3.0.7"
+    "svelte-preprocess": "^5.0.1",
+    "vite": "^4.0.4"
   }
 }
