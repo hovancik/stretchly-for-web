@@ -303,7 +303,7 @@
           </div>
         </div>
       </div>
-      <h2 class="subtitle">Mini Breaks</h2>
+      <h2 class="subtitle">Long Breaks</h2>
       <p>Long Breaks are taken less regularly, but are of greater duration, allowing you to take an extended break from your work.</p>
       <div class="field is-horizontal">
         <div class="field-label is-normal">

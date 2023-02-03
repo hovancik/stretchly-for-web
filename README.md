@@ -3,9 +3,10 @@
 *Stretchly for Web* is a simplified version of the [Stretchly](https://hovancik.net/stretchly) app.
 
 ## Current features
-- basic funcionality of Mini and Regular breaks
+- basic funcionality of Mini and Long breaks
 - ability to Start, Resume, Pause and Stop breaks
-- simple Preferences (intervals and durations for Mini and Regular breaks)
+- ability to skip to a Long or Mini breaks
+- simple Preferences (intervals and durations for Mini and Long breaks)
 - debug information
 
 ## New features

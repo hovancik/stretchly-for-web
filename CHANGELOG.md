@@ -33,9 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2022-01-22
 ### Added
-- basic funcionality of Mini and Regular breaks
+- basic funcionality of Mini and Long breaks
 - ability to Start, Resume, Pause and Stop breaks 
-- simple Preferences (intervals and durations for Mini and Regular breaks)
+- simple Preferences (intervals and durations for Mini and Long breaks)
 - debug information
 
 [Unreleased]: https://github.com/hovancik/stretchly-for-web/compare/v0.0.6...HEAD
