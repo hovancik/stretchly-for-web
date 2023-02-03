@@ -263,7 +263,7 @@
   <div class="hero-foot">
     <div class="container content has-text-right">
       <p>
-        <strong>Stretchly for Web</strong> v0.0.5 |
+        <strong>Stretchly for Web</strong> v0.0.6 |
         <a href="#preferences" class="is-underlined">Preferences</a> |
         Made with ♥ by <a href="https://hovancik.net" class="is-underlined">Jan Hovancik</a>
       </p>
