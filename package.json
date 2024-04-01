@@ -1,9 +1,9 @@
 {
   "name": "stretchly-for-web",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The break time reminder app",
   "engines": {
-    "node": "18.x"
+    "node": "20.11.0"
   },
   "type": "module",
   "repository": {
@@ -32,8 +32,8 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
-    "bulma": "^0.9.4",
-    "carbon-icons-svelte": "^11.2.0",
+    "bulma": "^1.0.0",
+    "carbon-icons-svelte": "^12.6.0",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "easytimer.js": "^4.5.4",
