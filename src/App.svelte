@@ -165,7 +165,7 @@
           {#if status === 'stopped' || status === 'paused'}
             <button class="button is-small" on:click={start}>
               <span class="icon is-small">
-                <Play size="16" />
+                <Play size={16} />
               </span>
               {#if status === 'stopped'}
                 <span>Start</span>
@@ -176,13 +176,13 @@
           {:else if status === 'running'}
             <button class="button is-small" on:click={pause}>
               <span class="icon is-small">
-                <Pause size="16" />
+                <Pause size={16} />
               </span>
               <span>Pause</span>
             </button>
             <button class="button is-small" on:click={stop}>
               <span class="icon is-small">
-                <Stop size="16" />
+                <Stop size={16} />
               </span>
               <span>Stop</span>
             </button>
@@ -190,7 +190,7 @@
               <div class="dropdown-trigger">
                 <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
                   <span class="icon is-small">
-                    <SkipForward size="16" />
+                    <SkipForward size={16} />
                   </span>
                   <span>Skip to</span>
                 </button>
@@ -215,7 +215,7 @@
     <div class="container has-text-centered">
       {#if status !== 'running'}
         <div>
-          <h1 class="title">
+          <h1 class="title has-text-white">
             Stretchly for Web
           </h1>
           <span class="tag {heroClass} is-light">
@@ -224,7 +224,7 @@
         </div>
       {:else if current === 'work'}
         <div>
-          <h1 class="title">
+          <h1 class="title has-text-white">
             Time to work!
           </h1>
           {#if finishedMinis === $longBreakInterval}
@@ -241,15 +241,15 @@
         <div>
           {#if finishedMinis === $longBreakInterval}
             <div class="block">
-              <h1 class="title">
+              <h1 class="title has-text-white">
                 {longBreakIdea[0]}
               </h1>
-              <h2 class="subtitle">
+              <h2 class="subtitle has-text-white">
                 {longBreakIdea[1]}
               </h2>
             </div>
           {:else}
-            <h1 class="title"e>
+            <h1 class="title has-text-white">
               {miniBreakIdea}
             </h1>
           {/if}
@@ -262,10 +262,10 @@
   </div>
   <div class="hero-foot">
     <div class="container content has-text-right">
-      <p>
-        <strong>Stretchly for Web</strong> v0.0.6 |
-        <a href="#preferences" class="is-underlined">Preferences</a> |
-        Made with ♥ by <a href="https://hovancik.net" class="is-underlined">Jan Hovancik</a>
+      <p class="has-text-white">
+        <strong>Stretchly for Web</strong> <a href="https://github.com/hovancik/stretchly-for-web" class="is-underlined has-text-white">v0.0.7</a> |
+        <a href="#preferences" class="is-underlined has-text-white">Preferences</a> |
+        Made with ♥ by <a href="https://hovancik.net" class="is-underlined has-text-white">Jan Hovancik</a>
       </p>
     </div>
   </div>
@@ -276,7 +276,11 @@
       <h1 class="title" id="preferences">
         Preferences
       </h1>
-      <p>Stop the breaks before editing preferences.   
+      {#if status === 'stopped'}
+        <p>Here you can edit preferences.</p>
+      {:else}
+        <p>Stop the breaks before editing preferences.</p>
+      {/if}
       <h2 class="subtitle">Mini Breaks</h2>
       <p>Mini Breaks are short breaks taken regularly to give you a chance to stretch and relax.</p>
       <div class="field is-horizontal">
