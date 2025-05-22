@@ -3,12 +3,12 @@
   import { theMiniBreakIdeas, theLongBreakIdeas } from './lib/ideas.js'
   import { longBreakInterval, longBreakDuration, miniBreakDuration, miniBreakInterval } from './stores/preferences.js'
   import NotificationRequest from './components/NotificationRequest.svelte'
-  
+
   import SkipForward from 'carbon-icons-svelte/lib/SkipForward.svelte'
   import Play from 'carbon-icons-svelte/lib/Play.svelte'
   import Stop from 'carbon-icons-svelte/lib/Stop.svelte'
   import Pause from 'carbon-icons-svelte/lib/Pause.svelte'
-  
+
   import { Timer } from 'easytimer.js'
   const timer = new Timer({ precision: 'seconds' })
 
@@ -51,7 +51,7 @@
     timer.reset()
     addToLogMessages('Mini Break started')
   }
-  
+
   function skipToMiniBreak () {
     finishedMinis = finishedMinis === $longBreakInterval ? 0 : finishedMinis
     addToLogMessages('Skipping to Mini Break')
@@ -143,7 +143,7 @@
     timer.start()
     addToLogMessages('Breakes started')
   }
-  
+
   function pause () {
     status = 'paused'
     current = 'work'
@@ -197,10 +197,10 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <a href={'#'} class="dropdown-item" on:click={ () => skipToMiniBreak()  }>
+                  <a href={'#'} class="dropdown-item" on:click={ () => skipToMiniBreak() }>
                     Mini Break
                   </a>
-                  <a href={'#'} class="dropdown-item" on:click={ () => skipToLongBreak()  }>
+                  <a href={'#'} class="dropdown-item" on:click={ () => skipToLongBreak() }>
                     Long Break
                   </a>
                 </div>

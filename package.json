@@ -3,7 +3,7 @@
   "version": "0.0.7",
   "description": "The break time reminder app",
   "engines": {
-    "node": "20.11.0"
+    "node": "22.16.0"
   },
   "type": "module",
   "repository": {
@@ -31,20 +31,22 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.0.2",
-    "bulma": "^1.0.0",
-    "carbon-icons-svelte": "^12.6.0",
-    "chai": "^4.3.6",
-    "chai-as-promised": "^7.1.1",
-    "easytimer.js": "^4.5.4",
-    "eslint": "^8.22.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-svelte3": "^4.0.0",
-    "husky": "^8.0.1",
-    "mocha": "^10.0.0",
-    "sass": "^1.53.0",
-    "svelte": "^3.49.0",
-    "svelte-preprocess": "^5.0.1",
-    "vite": "^4.0.4"
+    "@sveltejs/vite-plugin-svelte": "^2.5.3",
+    "bulma": "^1.0.4",
+    "carbon-icons-svelte": "^12.16.0",
+    "chai": "^4.5.0",
+    "chai-as-promised": "^7.1.2",
+    "easytimer.js": "^4.6.0",
+    "eslint": "^8.57.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-svelte": "^2.35.1",
+    "husky": "^8.0.3",
+    "mocha": "^10.8.2",
+    "sass": "^1.89.0",
+    "svelte": "^4.2.19",
+    "svelte-eslint-parser": "^1.2.0",
+    "svelte-preprocess": "^5.1.4",
+    "terser": "^5.39.2",
+    "vite": "^4.5.14"
   }
 }
