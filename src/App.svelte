@@ -38,8 +38,14 @@
     longBreakIdea = longBreakIdeas.randomElement.data
     /* eslint-disable no-new */
     new Notification('Stretchly - Long Break', { body: longBreakIdea[0] + ': ' + longBreakIdea[1], icon: '/stretchly_128x128.png' })
+
+    // Update all related state together
     current = 'break'
     timer.reset()
+    counter = 0
+    left = $longBreakDuration
+    formattedLeft = formatTimeLeft(left)
+
     addToLogMessages('Long Break started')
   }
 
@@ -47,8 +53,14 @@
     miniBreakIdea = miniBreakIdeas.randomElement.data
     /* eslint-disable no-new */
     new Notification('Stretchly - Mini Break', { body: miniBreakIdea, icon: '/stretchly_128x128.png' })
+
+    // Update all related state together
     current = 'break'
     timer.reset()
+    counter = 0
+    left = $miniBreakDuration
+    formattedLeft = formatTimeLeft(left)
+
     addToLogMessages('Mini Break started')
   }
 
@@ -67,20 +79,30 @@
   function finishMiniBreak () {
     /* eslint-disable no-new */
     new Notification('Stretchly', { body: 'Time for work!', icon: '/stretchly_128x128.png' })
-    finishedMinis += 1
-    current = 'work'
+
+    // Update all related state in a single operation to avoid UI flicker
     timer.reset()
-    left = $miniBreakInterval - counter
+    counter = 0
+    left = $miniBreakInterval
+    formattedLeft = formatTimeLeft(left)
+    current = 'work'
+    finishedMinis += 1
+
     addToLogMessages('Mini Break ended')
   }
 
   function finishLongBreak () {
     /* eslint-disable no-new */
     new Notification('Stretchly', { body: 'Time for work!', icon: '/stretchly_128x128.png' })
-    finishedMinis = 0
-    current = 'work'
+
+    // Update all related state in a single operation to avoid UI flicker
     timer.reset()
-    left = $miniBreakInterval - counter
+    counter = 0
+    left = $miniBreakInterval
+    formattedLeft = formatTimeLeft(left)
+    current = 'work'
+    finishedMinis = 0
+
     addToLogMessages('Long Break ended')
   }
 
@@ -99,30 +121,56 @@
   $: if (['stopped', 'paused'].includes(status)) {
     // nothing
   } else if (current === 'work') {
+    // Check if it's time to start a break
     if ((finishedMinis < $longBreakInterval) && (counter >= $miniBreakInterval)) {
       startMiniBreak()
     } else if ((finishedMinis === $longBreakInterval) && (counter >= $miniBreakInterval)) {
       startLongBreak()
+    } else {
+      // Update the left time while working
+      left = $miniBreakInterval - counter
+      // Only trigger formattedLeft update if left has changed
+      if (formattedLeft !== formatTimeLeft(left)) {
+        formattedLeft = formatTimeLeft(left)
+      }
     }
-    left = $miniBreakInterval - counter
   } else if (current === 'break') {
     if (finishedMinis < $longBreakInterval) {
-      left = $miniBreakDuration - counter
+      // Update the left time for mini breaks
+      const newLeft = $miniBreakDuration - counter
+      if (left !== newLeft) {
+        left = newLeft
+        formattedLeft = formatTimeLeft(left)
+      }
+
+      // Check if the break should end
       if (counter >= $miniBreakDuration) {
         finishMiniBreak()
       }
     } else if (finishedMinis === $longBreakInterval) {
-      left = $longBreakDuration - counter
+      // Update the left time for long breaks
+      const newLeft = $longBreakDuration - counter
+      if (left !== newLeft) {
+        left = newLeft
+        formattedLeft = formatTimeLeft(left)
+      }
+
+      // Check if the break should end
       if (counter >= $longBreakDuration) {
         finishLongBreak()
       }
     }
   }
 
-  $: if (left) {
+  // Utility function to format time consistently
+  function formatTimeLeft (seconds) {
     const measuredTime = new Date(null)
-    measuredTime.setSeconds(left)
-    formattedLeft = measuredTime.toISOString().substring(11, 19)
+    measuredTime.setSeconds(seconds)
+    return measuredTime.toISOString().substring(11, 19)
+  }
+
+  $: if (left) {
+    formattedLeft = formatTimeLeft(left)
   }
 
   $: heroClass = current === 'work' ? 'is-success' : 'is-info'
@@ -132,23 +180,24 @@
     timer.stop()
     current = 'work'
     left = 0
-    formattedLeft = ''
+    formattedLeft = '' // Empty string for stopped state
     finishedMinis = 0
-    addToLogMessages('Breakes stopped')
+    counter = 0
+    addToLogMessages('Breaks stopped')
   }
 
   function start () {
     status = 'running'
     current = 'work'
     timer.start()
-    addToLogMessages('Breakes started')
+    addToLogMessages('Breaks started')
   }
 
   function pause () {
     status = 'paused'
     current = 'work'
     timer.pause()
-    addToLogMessages('Breakes paused')
+    addToLogMessages('Breaks paused')
   }
 </script>
 
